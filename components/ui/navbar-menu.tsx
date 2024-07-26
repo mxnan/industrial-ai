@@ -3,6 +3,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 const transition = {
   type: "tween",
@@ -17,21 +18,45 @@ export const MenuItem = ({
   setActive,
   active,
   item,
+  icon,
   children,
 }: {
   setActive: (item: string) => void;
   active: string | null;
   item: string;
+  icon?: React.ReactNode;
   children?: React.ReactNode;
 }) => {
   return (
-    <div onMouseEnter={() => setActive(item)} className="relative ">
+    <div
+      onClick={() => setActive(item)}
+      onMouseEnter={() => setActive(item)}
+      className="relative group"
+    >
       <motion.p
-        
         transition={{ duration: 0.3 }}
-        className="cursor-pointer py-6 px-5 hover:opacity-[0.9] "
+        className={cn(
+          "relative cursor-pointer h-16 text-center py-5 px-5 font-normal max-md:px-3 lg:px-7 text-sm md:text-base",
+          active === item &&
+            "text-stone-500  dark:text-stone-400 transition-colors ease-in-out duration-300"
+        )}
       >
-        {item}
+        {!icon ? (
+          <span>{item}</span>
+        ) : (
+          <span
+            className={cn(
+              "inline-block transition-transform ease-in-out duration-300",
+              item === "Our Approach"
+                ? "group-hover:-rotate-[25deg]"
+                : item === "Security"
+                ? "group-hover:rotate-[25deg]"
+                : "group-hover:rotate-0"
+            )}
+          >
+            {icon}
+          </span>
+        )}
       </motion.p>
       {active !== null && (
         <motion.div
@@ -40,7 +65,7 @@ export const MenuItem = ({
           transition={transition}
         >
           {active === item && (
-            <div className="absolute top-[60px] left-1/2 transform -translate-x-1/2">
+            <div className="absolute top-[60px] left-1/2 sm:-translate-x-1/3 lg:-translate-x-1/2">
               <motion.div
                 transition={transition}
                 layoutId="active" // layoutId ensures smooth animation
@@ -71,14 +96,14 @@ export const Menu = ({
   return (
     <div
       onMouseLeave={() => setActive(null)} // resets the state
-      className="relative flex-center"
+      className="relative flex-center max-sm:hidden"
     >
       {children}
     </div>
   );
 };
 
-export const ProductItem = ({
+export const ContentCard = ({
   title,
   description,
   href,
@@ -90,17 +115,25 @@ export const ProductItem = ({
   src: string;
 }) => {
   return (
-    <Link href={href} className="flex space-x-2">
-      <Image
-        src={src}
-        width={120}
-        height={70}
-        alt={title}
-        className="flex-shrink-0 rounded-md shadow-2xl"
-      />
-      <div>
-        <h4 className="text-xl font-bold mb-1 ">{title}</h4>
-        <p className=" text-sm max-w-[10rem] ">{description}</p>
+    <Link
+      href={href}
+      className="flex flex-col gap-3 max-w-[420px] " // Fixed width of 300px
+    >
+      <div
+        className="w-full aspect-video relative overflow-hidden
+       rounded-xl hover:scale-90 transition-transform ease-in-out duration-500"
+      >
+        <Image
+          src={src}
+          alt={title}
+          fill
+          style={{ objectFit: "cover" }}
+          sizes="300px"
+        />
+      </div>
+      <div className="w-full space-y-2 pl-5">
+        <h4 className="text-sm font-medium">{title}</h4>
+        <p className="text-xs font-light">{description}</p>
       </div>
     </Link>
   );
@@ -110,7 +143,7 @@ export const HoveredLink = ({ children, ...rest }: any) => {
   return (
     <Link
       {...rest}
-      className="text-neutral-700 dark:text-neutral-200 hover:text-black "
+      className=" text-stone-700 dark:text-stone-300 hover:text-stone-500 dark:hover:text-stone-400"
     >
       {children}
     </Link>

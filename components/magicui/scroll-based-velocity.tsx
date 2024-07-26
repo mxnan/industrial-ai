@@ -111,7 +111,7 @@ export function VelocityScroll({
       <ParallaxText baseVelocity={default_velocity} className={className}>
         {text}
       </ParallaxText>
-      <p className="font-display text-center text-4xl font-bold tracking-[-0.02em] text-black drop-shadow-sm dark:text-white md:text-7xl md:leading-[5rem]">
+      <p className="text-center text-4xl font-bold tracking-[-0.02em] text-black drop-shadow-sm dark:text-white md:text-7xl md:leading-[5rem]">
         {text}
       </p>
       <ParallaxText baseVelocity={-default_velocity} className={className}>
