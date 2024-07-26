@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  @apply bg-white/20 text-black dark:bg-black dark:text-white;
+}
+
+.dark {
+  @apply bg-stone-950/10 text-white  dark:bg-white dark:text-black;
+}
+
+@layer utilities {
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+  .flex-between {
+    @apply flex items-center justify-between;
+  }
+}
